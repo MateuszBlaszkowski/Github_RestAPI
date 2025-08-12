@@ -29,7 +29,17 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             String username = scanner.next();
 
-            JSONArray array = new JSONArray(getJson("https://api.github.com/users/"+username+"/repos").body());
+            JSONArray array;
+            try{
+                array = new JSONArray(getJson("https://api.github.com/users/"+username+"/repos").body());
+            }
+            catch (Exception e){
+                JSONObject errJson = new JSONObject(getJson("https://api.github.com/users/"+username+"/repos").body());
+                errJson.remove("documentation_url");
+                System.out.println(errJson);
+                return;
+            }
+
 
             for(int i =0; i<array.length(); i++)
             {
