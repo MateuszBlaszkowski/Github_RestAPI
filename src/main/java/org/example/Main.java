@@ -11,7 +11,16 @@ import org.json.JSONObject;
 
 public class Main {
 
-    static HttpResponse<String> getJson(String url) throws IOException, InterruptedException{
+    static boolean test() throws IOException, InterruptedException {
+        //Given
+        String path = "https://api.github.com/users/octocat/repos";
+        //When
+        HttpResponse response = getJson(path);
+        //Then
+        return response.statusCode() == 200;
+    }
+
+    static HttpResponse<String> getJson(String url) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest req = HttpRequest.newBuilder()
@@ -24,7 +33,8 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
-
+            if(!test())
+                return;
             System.out.println("Type username:");
             Scanner scanner = new Scanner(System.in);
             String username = scanner.next();
